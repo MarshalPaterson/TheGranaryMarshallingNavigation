@@ -1,4 +1,4 @@
-# TheGranaryMarshallingNavigation
+# The Granary, Marshalling and React Navigation Demo
 An example for React Native Navigation, Marshalling and The Granary
 
 <p align="center">

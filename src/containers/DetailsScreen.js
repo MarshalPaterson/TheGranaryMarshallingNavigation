@@ -3,23 +3,23 @@ import { Platform, StyleSheet, Text, View } from 'react-native';
 import TheGranary from 'the-granary';
 
 class DetailsScreen extends Component {
-    constructor(props) {
+	constructor(props) {
 		super(props);
-		this.state = { data: [] };
-    }
+		this.state = { data: this.granary(TheGranary).getGranary('Tester').name };
+	}
 	static navigationOptions = {
 		title: 'Details',
 	}
-	componentDidMount(){
-        let g = TheGranary.getInstance();
-        let t = g.getGranary("Tester");
-        this.setState({data: t.name});
-    }
+	granary = grainStore => {
+		return grainStore.getInstance();
+	}
 	render() {
-        const { navigate } = this.props.navigation;
-		return <View style={styles.container} >
-		<Text>{this.state.data}</Text>
-		</View>;
+		const { navigate } = this.props.navigation;
+		return (
+			<View style={styles.container}>
+				<Text>{this.state.data}</Text>
+			</View>
+		);
 	}
 }
 

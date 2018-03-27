@@ -9,6 +9,7 @@ import { StackNavigator } from "react-navigation";
 import LoadingScreen from "./src/containers/LoadingScreen";
 import HomeScreen from "./src/containers/HomeScreen";
 import DetailsScreen from "./src/containers/DetailsScreen";
+import FormScreen from "./src/containers/FormScreen";
  
 const RootStack = StackNavigator({
   Loading: {
@@ -20,6 +21,9 @@ const RootStack = StackNavigator({
   Details: {
     screen: DetailsScreen,
   },
+  Form: {
+    screen: FormScreen,
+  }
 },
 {
   initialRouteName: 'Loading',

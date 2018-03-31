@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import TheGranary from 'the-granary';
 
 class HomeScreen extends Component {
@@ -17,7 +17,9 @@ class HomeScreen extends Component {
 		headerLeft: null,
 	};
 	filterAlbums = (values) => {
-		return values.map((item, index) => <View key={index}><Text key={item.id}>{item.title}</Text></View>);		
+		if(values)
+			return values.map((item, index) => <View key={index}><Text key={item.id}>{item.title}</Text></View>);
+		return "";		
 	}
 	granary = grainStore => {
 		return grainStore.getInstance();
@@ -28,13 +30,13 @@ class HomeScreen extends Component {
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<View style={styles.container}>
-				<Text>{this.state.data}</Text>
-				<Text>{this.state.info}</Text>
-				<Text>{this.state.albums}</Text>
+			<ScrollView style={styles.container}>
+				{/* <Text>{this.state.data}</Text>
+				<Text>{this.state.info}</Text> */}
 				<Button title="Go to Details page" onPress={() => this.props.navigation.navigate('Details')} />
 				<Button title="Go to Form page" onPress={() => this.props.navigation.navigate('Form')} />
-			</View>
+				<Text>{this.state.albums}</Text>
+			</ScrollView>
 		);
 	}
 }
@@ -42,8 +44,6 @@ class HomeScreen extends Component {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
 		backgroundColor: '#F5FCFF',
 	},
 	welcome: {

@@ -12,42 +12,19 @@ class LoadingScreen extends Component {
 	static navigationOptions = {
 		title: 'Loading',
 	};
-
-	// filterAlbums = (values) => {
-	// 	let obj = JSON.parse(values);
-	// 	return obj.map(item => <View><Text key={item.userId}>{item.title}</Text></View>);		
-	// }
-
 	componentDidMount() {
 		let marshalling = new Marshalling.Marshall();
 		let grain = TheGranary.getInstance();
 		marshalling.getInstance().addService('comments', 'https://jsonplaceholder.typicode.com/comments');
 		marshalling.getInstance().addService('albums', 'https://jsonplaceholder.typicode.com/albums');
-
-		Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')]).then(function(
+		return Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')]).then(function(
 			values
 		) {
 			grain.setGranary('comments', JSON.parse(String(values[0])));
-			grain.setGranary('albums', JSON.parse(String(values[1])));
+			grain.setGranary('albums', JSON.parse(String(values[1])));		
+		}).then(() => {
+			this.props.navigation.navigate('Home');
 		});
-
-		marshalling
-			.getInstance()
-			.law('comments')
-			.then(
-				value => {
-					let obj = JSON.parse(String(value));
-					let g = TheGranary.getInstance();
-					g.setGranary('Tester', obj[0]);
-
-					this.props.navigation.navigate('Home');
-				},
-				reason => {
-					this.setState({
-						data: reason,
-					});
-				}
-			);
 	}
 	render() {
 		const { navigate } = this.props.navigation;

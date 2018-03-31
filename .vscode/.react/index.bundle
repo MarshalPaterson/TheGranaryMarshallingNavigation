@@ -73110,22 +73110,11 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
 				marshalling.getInstance().addService('comments', 'https://jsonplaceholder.typicode.com/comments');
 				marshalling.getInstance().addService('albums', 'https://jsonplaceholder.typicode.com/albums');
-				Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')]).then(function (values) {
+				return Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')]).then(function (values) {
 					grain.setGranary('comments', JSON.parse(String(values[0])));
 					grain.setGranary('albums', JSON.parse(String(values[1])));
-				});
-				marshalling.getInstance().law('comments').then(function (value) {
-					var obj = JSON.parse(String(value));
-
-					var g = _theGranary2.default.getInstance();
-
-					g.setGranary('Tester', obj[0]);
-
+				}).then(function () {
 					_this2.props.navigation.navigate('Home');
-				}, function (reason) {
-					_this2.setState({
-						data: reason
-					});
 				});
 			}
 		}, {
@@ -73138,7 +73127,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 						style: styles.container,
 						__source: {
 							fileName: _jsxFileName,
-							lineNumber: 55
+							lineNumber: 32
 						}
 					},
 					_react3.default.createElement(
@@ -73146,7 +73135,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 						{
 							__source: {
 								fileName: _jsxFileName,
-								lineNumber: 56
+								lineNumber: 33
 							}
 						},
 						"Loading..."
@@ -73406,14 +73395,14 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 			var _this = _possibleConstructorReturn(this, (HomeScreen.__proto__ || Object.getPrototypeOf(HomeScreen)).call(this, props));
 
 			_this.filterAlbums = function (values) {
-				return values.map(function (item, index) {
+				if (values) return values.map(function (item, index) {
 					return _react3.default.createElement(
 						_reactNative.View,
 						{
 							key: index,
 							__source: {
 								fileName: _jsxFileName,
-								lineNumber: 20
+								lineNumber: 21
 							}
 						},
 						_react3.default.createElement(
@@ -73422,13 +73411,14 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 								key: item.id,
 								__source: {
 									fileName: _jsxFileName,
-									lineNumber: 20
+									lineNumber: 21
 								}
 							},
 							item.title
 						)
 					);
 				});
+				return "";
 			};
 
 			_this.granary = function (grainStore) {
@@ -73454,44 +73444,14 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 
 				var navigate = this.props.navigation.navigate;
 				return _react3.default.createElement(
-					_reactNative.View,
+					_reactNative.ScrollView,
 					{
 						style: styles.container,
 						__source: {
 							fileName: _jsxFileName,
-							lineNumber: 31
+							lineNumber: 33
 						}
 					},
-					_react3.default.createElement(
-						_reactNative.Text,
-						{
-							__source: {
-								fileName: _jsxFileName,
-								lineNumber: 32
-							}
-						},
-						this.state.data
-					),
-					_react3.default.createElement(
-						_reactNative.Text,
-						{
-							__source: {
-								fileName: _jsxFileName,
-								lineNumber: 33
-							}
-						},
-						this.state.info
-					),
-					_react3.default.createElement(
-						_reactNative.Text,
-						{
-							__source: {
-								fileName: _jsxFileName,
-								lineNumber: 34
-							}
-						},
-						this.state.albums
-					),
 					_react3.default.createElement(_reactNative.Button, {
 						title: "Go to Details page",
 						onPress: function onPress() {
@@ -73499,7 +73459,7 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 						},
 						__source: {
 							fileName: _jsxFileName,
-							lineNumber: 35
+							lineNumber: 36
 						}
 					}),
 					_react3.default.createElement(_reactNative.Button, {
@@ -73509,9 +73469,19 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 						},
 						__source: {
 							fileName: _jsxFileName,
-							lineNumber: 36
+							lineNumber: 37
 						}
-					})
+					}),
+					_react3.default.createElement(
+						_reactNative.Text,
+						{
+							__source: {
+								fileName: _jsxFileName,
+								lineNumber: 38
+							}
+						},
+						this.state.albums
+					)
 				);
 			}
 		}]);
@@ -73525,8 +73495,6 @@ __d(function (global, _require, module, exports, _dependencyMap) {
 	var styles = _reactNative.StyleSheet.create({
 		container: {
 			flex: 1,
-			justifyContent: 'center',
-			alignItems: 'center',
 			backgroundColor: '#F5FCFF'
 		},
 		welcome: {

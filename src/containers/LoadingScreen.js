@@ -7,7 +7,7 @@ import TheGranary from 'the-granary';
 class LoadingScreen extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { data: [] };
+		this.state = { comments: [], albums: [] };
 	}
 	static navigationOptions = {
 		title: 'Loading',
@@ -17,14 +17,22 @@ class LoadingScreen extends Component {
 		let grain = TheGranary.getInstance();
 		marshalling.getInstance().addService('comments', 'https://jsonplaceholder.typicode.com/comments');
 		marshalling.getInstance().addService('albums', 'https://jsonplaceholder.typicode.com/albums');
-		return Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')]).then(function(
-			values
-		) {
-			grain.setGranary('comments', JSON.parse(String(values[0])));
-			grain.setGranary('albums', JSON.parse(String(values[1])));		
-		}).then(() => {
-			this.props.navigation.navigate('Home');
-		});
+		return Promise.all([marshalling.getInstance().law('comments'), marshalling.getInstance().law('albums')])
+			.then(values => {
+				let a = JSON.parse(String(values[1]));
+				grain.setGranary(
+					'albums',
+					a.map((item, index) => (
+						<View key={index}>
+							<Text key={item.id}>{item.title}</Text>
+						</View>
+					))
+				);
+				grain.setGranary('comments', JSON.parse(String(values[0])));
+			})
+			.then(() => {
+				this.props.navigation.navigate('Home');
+			});
 	}
 	render() {
 		const { navigate } = this.props.navigation;

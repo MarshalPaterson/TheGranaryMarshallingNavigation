@@ -8,7 +8,7 @@ class HomeScreen extends Component {
 		this.state = {
 			data: this.granary(TheGranary).getGranary('Tester').name,
 			info: this.granary(TheGranary).getGranary('Form'),
-			albums: this.filterAlbums(this.granary(TheGranary).getGranary('albums')),
+			albums: this.granary(TheGranary).getGranary('albums'),
 			comments: this.granary(TheGranary).getGranary('comments'),
 		};
 	}
@@ -16,17 +16,10 @@ class HomeScreen extends Component {
 		title: 'Welcome',
 		headerLeft: null,
 	};
-	filterAlbums = (values) => {
-		if(values)
-			return values.map((item, index) => <View key={index}><Text key={item.id}>{item.title}</Text></View>);
-		return "";		
-	}
 	granary = grainStore => {
 		return grainStore.getInstance();
 	};
-
-	componentDidMount() {}
-	
+	componentDidMount() {}	
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
